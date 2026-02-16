@@ -37,6 +37,7 @@ class VolumeControl
 #endif
 	
 	int internalVolume;
+	int volumeStep;
 
 	static std::weak_ptr<VolumeControl> sInstance;
 

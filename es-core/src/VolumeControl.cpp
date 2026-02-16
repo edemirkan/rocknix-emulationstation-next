@@ -28,7 +28,6 @@ public:
 	  	mReady   = 0;
 		mMute    = 0;
 		mVolume  = 100;
-		mVolumeStep = 5;
 
 		mThread = new std::thread(&PulseAudioControl::run, this);
 		WaitEvent();
@@ -58,16 +57,6 @@ public:
 		pa_operation* o = pa_context_get_sink_info_by_name(mContext, DEFAULT_SINK_NAME, set_sink_volume_callback, this);
       	if (o != NULL)
 			pa_operation_unref(o);
-	}
-
-	int getVolumeStep() const
-	{
-		return mVolumeStep;
-	}
-
-	void setVolumeStep(int volumeStep)
-	{
-		mVolumeStep = volumeStep;
 	}
 
 	void exit()
@@ -237,7 +226,7 @@ std::weak_ptr<VolumeControl> VolumeControl::sInstance;
 
 
 VolumeControl::VolumeControl()
-	: internalVolume(0)
+	: internalVolume(0), volumeStep(1)
 #if defined (__APPLE__)
 	#error TODO: Not implemented for MacOS yet!!!
 #elif defined(__linux__)
@@ -676,4 +665,15 @@ bool VolumeControl::isAvailable()
 #elif defined(WIN32) || defined(_WIN32)
 	return mixerHandle != nullptr || endpointVolume != nullptr;
 #endif
+}
+
+int VolumeControl::getVolumeStep() const
+{
+	return volumeStep;
+}
+
+void VolumeControl::setVolumeStep(int volumeStepValue)
+{
+	volumeStep = volumeStepValue;
+
 }
