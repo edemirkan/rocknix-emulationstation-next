@@ -4844,6 +4844,19 @@ void GuiMenu::openSoundSettings()
 #endif
 		});
 
+		// volume step
+		auto volumeStep = std::make_shared<SliderComponent>(mWindow, 0.f, 10.f, 1.f, "%");
+		volumeStep->setValue((float)VolumeControl::getInstance()->getVolumeStep());
+		volumeStep->setOnValueChanged([](const float &newVal) { VolumeControl::getInstance()->setVolumeStep((int)Math::round(newVal)); });
+		s->addWithLabel(_("SYSTEM VOLUME STEP"), volumeStep);
+		s->addSaveFunc([this, volumeStep]
+		{
+			VolumeControl::getInstance()->setVolumeStep((int)Math::round(volumeStep->getValue()));
+#if !WIN32
+			SystemConf::getInstance()->set("audio.volume.step", std::to_string((int)round(volumeStep->getValue())));
+#endif
+		});
+
 
 		// Music Volume
 		auto musicVolume = std::make_shared<SliderComponent>(mWindow, 0.f, 100.f, 1.f, "%");

@@ -124,6 +124,7 @@ private:
 	bool checkLaunchOptions(FileData* game, LaunchGameOptions options, Vector3f center);
 	int getSystemId(SystemData* system);
 	void changeVolume(int increment);
+	void changeVolumeStep(int increment);
 
 	std::shared_ptr<GuiComponent> mCurrentView;
 	std::map< SystemData*, std::shared_ptr<IGameListView> > mGameListViews;

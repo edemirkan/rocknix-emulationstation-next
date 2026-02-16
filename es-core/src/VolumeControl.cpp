@@ -28,6 +28,7 @@ public:
 	  	mReady   = 0;
 		mMute    = 0;
 		mVolume  = 100;
+		mVolumeStep = 5;
 
 		mThread = new std::thread(&PulseAudioControl::run, this);
 		WaitEvent();
@@ -57,6 +58,16 @@ public:
 		pa_operation* o = pa_context_get_sink_info_by_name(mContext, DEFAULT_SINK_NAME, set_sink_volume_callback, this);
       	if (o != NULL)
 			pa_operation_unref(o);
+	}
+
+	int getVolumeStep() const
+	{
+		return mVolumeStep;
+	}
+
+	void setVolumeStep(int volumeStep)
+	{
+		mVolumeStep = volumeStep;
 	}
 
 	void exit()

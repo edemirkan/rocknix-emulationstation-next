@@ -854,6 +854,20 @@ void ViewController::changeVolume(int increment)
 #endif
 }
 
+void ViewController::changeVolumeStep(int increment)
+{
+	int newVal = VolumeControl::getInstance()->getVolumeStep() + increment;
+	if (newVal > 10)
+		newVal = 10;
+	if (newVal < 0)
+		newVal = 0;
+
+	VolumeControl::getInstance()->setVolumeStep(newVal);
+#if !WIN32
+	SystemConf::getInstance()->set("audio.volume.step", std::to_string(VolumeControl::getInstance()->getVolumeStep()));
+#endif
+}
+
 bool ViewController::input(InputConfig* config, Input input)
 {
 	if (mLockInput)

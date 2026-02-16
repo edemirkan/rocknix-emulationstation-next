@@ -55,6 +55,9 @@ public:
 	int getVolume() const;
 	void setVolume(int volume);
 
+	int getVolumeStep() const;
+	void setVolumeStep(int volumeStep);
+
 	~VolumeControl();
 };
 
